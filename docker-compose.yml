@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  php:
+    restart: always
+    tty: true
+    image: z4riix/php8-alpine
+    volumes:
+      - ./laravel:/var/www/html # plz check your laravel project path
+    command: /usr/bin/php8 -S 0.0.0.0:8888 -t /var/www/html
+    ports:
+      - "8888:8888"
+  composer:
+    image: z4riix/composer
+    volumes:
+      - ./laravel:/app
+    depends_on:
+      - php
+  node:
+    image: z4riix/node
+    volumes:
+      - ./laravel:/app # plz check your laravel project path
+    command: npm install
+    depends_on:
+      - php
+  adminer:
+    image: z4riix/adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    command: /usr/bin/php8 -S 0.0.0.0:8080 -t /var/www/html
