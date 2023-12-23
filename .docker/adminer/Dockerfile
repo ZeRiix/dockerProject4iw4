@@ -6,7 +6,9 @@ RUN apk --no-cache add \
     php8-session \
     php8-pdo \
     php8-pdo_mysql \
-    php8-mysqli
+    php8-mysqli \
+    php8-pdo_pgsql \
+    php8-pgsql
 
 # Copiez Adminer
 WORKDIR /var/www/html
@@ -22,6 +24,10 @@ COPY --from=z4riix/composer /docker-entrypoint.sh /docker-entrypoint.sh
 
 # Ajustez les permissions
 RUN chmod +x /usr/local/bin/composer /docker-entrypoint.sh
+
+# Activer le pilote PostgreSQL pour PHP
+RUN echo "extension=pdo_pgsql.so" > /etc/php8/conf.d/00_pdo_pgsql.ini
+RUN echo "extension=pgsql.so" > /etc/php8/conf.d/01_pgsql.ini
 
 # Démarrez PHP-FPM
 CMD ["/usr/sbin/php-fpm8", "-F"]

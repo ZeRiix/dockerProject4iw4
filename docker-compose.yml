@@ -28,3 +28,12 @@ services:
     ports:
       - "8080:8080"
     command: /usr/bin/php8 -S 0.0.0.0:8080 -t /var/www/html
+  postgres:
+    image: z4riix/postgres
+    restart: always
+    environment: # ENV ne fonctionne docker semble etre aveugle
+      POSTGRES_USER: laravel 
+      POSTGRES_PASSWORD: laravel
+      POSTGRES_DB: laravel
+    ports:
+      - "5432:5432"
