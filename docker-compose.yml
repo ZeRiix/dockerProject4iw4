@@ -6,13 +6,21 @@ services:
     image: z4riix/php8-alpine
     volumes:
       - ./laravel:/var/www/html # plz check your laravel project path
-    command: /usr/bin/php8 -S 0.0.0.0:8888 -t /var/www/html
-    ports:
-      - "8888:8888"
+    command: /usr/sbin/php-fpm8 -F
   composer:
     image: z4riix/composer
     volumes:
       - ./laravel:/app
+    depends_on:
+      - php
+  nginx:
+    restart: always
+    image: z4riix/nginx
+    volumes:
+      - ./laravel:/var/www/html
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8888:80"
     depends_on:
       - php
   node:
@@ -31,7 +39,7 @@ services:
   postgres:
     image: z4riix/postgres
     restart: always
-    environment: # ENV ne fonctionne docker semble etre aveugle
+    environment:
       POSTGRES_USER: laravel 
       POSTGRES_PASSWORD: laravel
       POSTGRES_DB: laravel
