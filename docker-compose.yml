@@ -1,8 +1,8 @@
 version: "3.7"
 services:
   php:
-    restart: always
-    tty: true
+    #restart: always
+    #tty: true
     image: z4riix/php8-alpine
     volumes:
       - ./laravel:/var/www/html # plz check your laravel project path
@@ -14,7 +14,7 @@ services:
     depends_on:
       - php
   nginx:
-    restart: always
+    #restart: always
     image: z4riix/nginx
     volumes:
       - ./laravel:/var/www/html
@@ -32,7 +32,7 @@ services:
       - php
   adminer:
     image: z4riix/adminer
-    restart: always
+    #restart: always
     ports:
       - "8080:8080"
     command: /usr/bin/php8 -S 0.0.0.0:8080 -t /var/www/html
@@ -40,7 +40,7 @@ services:
     image: z4riix/postgres
     restart: always
     environment:
-      POSTGRES_USER: laravel 
+      POSTGRES_USER: laravel
       POSTGRES_PASSWORD: laravel
       POSTGRES_DB: laravel
     ports:

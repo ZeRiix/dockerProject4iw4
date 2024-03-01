@@ -28,7 +28,8 @@ RUN apk --no-cache add \
     php8-zip \
     php8-session \
     php8-pdo_pgsql \
-    php8-pdo
+    php8-pdo \
+    php8-cli
 
 # Configurez PHP-FPM
 COPY php-fpm.conf /etc/php8/php-fpm.conf
